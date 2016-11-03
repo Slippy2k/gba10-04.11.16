@@ -1,0 +1,74 @@
+﻿<UserControl
+    x:Class="GBA10.AdControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GBA10"
+    xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
+    xmlns:adduplex="using:AdDuplex"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="90"
+    d:DesignWidth="500">
+
+    <Grid x:Name="adGrid">
+        <!--<Grid.RenderTransform>
+            <CompositeTransform ScaleX="0.5" ScaleY="0.5" />
+        </Grid.RenderTransform>-->
+        
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="728"/>
+        </Grid.ColumnDefinitions>-->
+
+        <!--<adduplex:AdControl x:Name="AdDuplexAdControl" 
+                            AppKey="53f0124b-fa9c-40be-a364-4589d505adcd"
+                            AdUnitId="166555"
+                            VerticalAlignment="Bottom" 
+                            VerticalContentAlignment="Bottom"
+                              IsEnabled="False"
+                            Visibility="Visible"
+                            RefreshInterval="20"
+                    />-->
+        
+        <UI:AdControl ApplicationId="90156e70-3263-4775-8d1e-918443468f13" 
+                      AdUnitId="11532490"
+                      Height="50"
+                      Width="320" 
+                      VerticalAlignment="Bottom"
+                      x:Name="MSAdControl" 
+                      ErrorOccurred="MSAdControl_ErrorOccurred" 
+                      AdRefreshed="MSAdControl_AdRefreshed" 
+                      AutoRefreshIntervalInSeconds="30"
+                      Visibility="Visible"
+                      >
+        </UI:AdControl>
+
+        
+        
+        <!--<UI:AdControl ApplicationId="c6ee4c5e-e2b6-4b79-99e6-672f765f0ae0" 
+                      AdUnitId="11532489"
+                      HorizontalAlignment="Left" 
+                      Height="90"
+                      Width="728" 
+                      VerticalAlignment="Bottom"
+                      x:Name="MSAdControl" 
+                      ErrorOccurred="MSAdControl_ErrorOccurred" 
+                      AdRefreshed="MSAdControl_AdRefreshed" 
+                      AutoRefreshIntervalInSeconds="30"
+                      Visibility="Visible"
+                      >
+        </UI:AdControl>-->
+
+        
+        <!--<TextBlock Text="This is a placeholder for ads because the Ad SDK for Windows 10 is not yet available."
+                   TextWrapping="Wrap"
+                   FontSize="12"
+                   Margin="6,0,6,0"
+                   Height="36"
+                   />-->
+
+    </Grid>
+</UserControl>

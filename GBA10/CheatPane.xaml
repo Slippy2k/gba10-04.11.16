@@ -1,0 +1,225 @@
+﻿<Page
+    x:Class="GBA10.CheatPane"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GBA10"
+    xmlns:ctl="using:GBA10.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="500" 
+    d:DesignWidth="600">
+
+
+    <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"    >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Adaptive triggers -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="wideView">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000"  />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="panelCheatList.(RelativePanel.RightOf)" Value="panelAddCode"/>
+                        <Setter Target="rowCode.Height" Value="200"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="mediumView">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="panelCheatList.(RelativePanel.Below)" Value="panelAddCode"/>
+                        <Setter Target="rowCode.Height" Value="100"/>
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="narrowView">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="panelCheatList.(RelativePanel.Below)" Value="panelAddCode"/>
+                        <Setter Target="rowCode.Height" Value="100"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid x:Name="titleBar" 
+              Height="48"
+              Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            <TextBlock x:Name="title" 
+                     Style="{StaticResource PageTitleTextBlockStyle}" 
+                       Text="**CHEATS"
+                       x:Uid="CHEATS"/>
+        </Grid>
+        <TextBlock x:Name="txtNoROM" Visibility="Collapsed"
+                   Grid.Row="1"
+                   Margin="12,8,12,4"
+                 Text="Please start a rom first."
+                   x:Uid="StartARom"/>
+        
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      Grid.Row="1"
+                      x:Name="svMain">
+            <RelativePanel >
+               
+
+                <StackPanel x:Name="panelAddCode"
+                        Padding="12,0,12,0"
+                        BorderBrush="{ThemeResource ListBoxBorderThemeBrush}"
+                            MaxWidth="400"
+                        >
+
+
+                    <TextBlock Grid.Row="0" Text="**Add" 
+                               Style="{ThemeResource TitleTextBlockStyle}"
+                               Margin="0,8,0,4"
+                               x:Uid="Add"
+                               />
+                    <TextBlock Grid.Row="0" Text="invisible text to stretch the panel invisible text to stretch the panel invisible text to stretch the panel"
+                               Height="0"
+                               />
+
+                    <TextBlock TextWrapping="Wrap" 
+                           Margin="0,4,0,4" 
+                           x:Name="descLabel"
+                               HorizontalAlignment="Left"
+                                Text="**This emulator supports Gameshark, CodeBreaker and GameGenie codes." 
+                               x:Uid="CheatInstruction"/>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="100" x:Name="rowCode" />
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" MinWidth="90"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" 
+                                    Text="**Description:"
+                                   VerticalAlignment="Center"
+                                   x:Uid="Description"
+                                    />
+                        <TextBox Grid.Row="0" Grid.Column="1"
+                                 Name="descBox" Margin="0,4,0,4" 
+                               />
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+                                    Text="**Code:" VerticalAlignment="Top"
+                                   Margin="0,4,0,0"
+                                   x:Uid="Code"/>
+
+                        <TextBox 
+                                    Name="codeBox" AcceptsReturn="True" 
+                                Grid.Row="1" Grid.Column="1" 
+                                    Margin="0,4,0,4"
+                            />
+
+
+                        <Button Grid.Row="3" Content="**Add" 
+                                HorizontalAlignment="Stretch" 
+                                Margin="0,4,0,4" Name="addButton"
+                                Click="addButton_Click"
+                                x:Uid="AddBtn"/>
+                    </Grid>
+
+
+
+                </StackPanel>
+
+                <StackPanel x:Name="panelCheatList"
+                        Padding="12,0,12,0"
+                        BorderBrush="{ThemeResource ListBoxBorderThemeBrush}"
+                            MaxWidth="400"
+                        >
+                    <StackPanel.Resources>
+                        <CollectionViewSource x:Name="cvsAllCheats"/>
+                    </StackPanel.Resources>
+
+                    <TextBlock Text="**List" 
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Margin="0,8,0,4"
+                               x:Uid="List"
+                           />
+                    
+                    <TextBlock x:Name="txtNoCheat" 
+                               Text="No cheat code has been entered." 
+                               x:Uid="NoCheat"
+                               Visibility="Collapsed" 
+                               Margin="0,4,0,4" />
+
+                    <ListView  Name="cheatList" 
+                            Background="Transparent"
+                         ItemsSource="{Binding Source={StaticResource cvsAllCheats}}"
+                              Margin="0,4,0,4" >
+                        
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                    
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <CheckBox Name="enableCheatBox" 
+                                            IsChecked="{Binding Enabled}" 
+                                            Checked="enableCheatBox_Checked"
+                                            Unchecked="enableCheatBox_Checked"
+                                                Content="{Binding Description}"
+                                              Grid.Row="0"
+                                              Grid.Column="0"/>
+                                    <!--<Button Grid.Column="1"  
+                                            Name="EditCheatButton"
+                                            Content="&#xE104;"
+                		                Style="{StaticResource AppBarButtonStyleSmall}"
+                		             />-->
+                                    <Button Grid.Column="2"   Click="DeleteCheatButton_Click" 
+                                            Name="DeleteCheatButton"
+                                            Content="&#xE107;"
+                		                Style="{StaticResource AppBarButtonStyleSmall}"
+                		             />
+                                    
+                                       <TextBlock  Text="{Binding CheatCode}" FontSize="16"
+                                                   Grid.Row="1"
+                                                   Grid.ColumnSpan="3"
+                                                   />
+                                           
+                                        
+                                    
+                                </Grid>
+                                    
+                               
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </RelativePanel>
+        </ScrollViewer>
+
+
+    </Grid>
+</Page>

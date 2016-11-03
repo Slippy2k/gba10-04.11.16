@@ -1,0 +1,536 @@
+﻿<Page
+    x:Class="GBA10.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GBA10"
+    xmlns:ctl="using:GBA10.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignWidth="320">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="titleBar" 
+              Height="48"
+              Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            <TextBlock x:Name="title" 
+                     Style="{StaticResource PageTitleTextBlockStyle}" Text="SETTINGS"/>
+        </Grid>
+
+        
+        <Pivot Grid.Row="1" >
+            <PivotItem  Header="Input"
+                        Margin="0"
+                        >
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                              
+                      >
+                    <StackPanel Orientation="Vertical" x:Name="InputStackPanel" 
+                                  HorizontalAlignment="Left" 
+                                MaxWidth="440"
+                                Margin="12,0">
+                        <StackPanel.Resources>
+                            <CollectionViewSource x:Name="vsControllerList"/>
+                        </StackPanel.Resources>
+
+                        <TextBlock TextWrapping="Wrap" 
+                                   Margin="0,0,0,8">
+                            <Run Text="Both Xbox and generic HID gamepads are supported." />
+                            <Run Text=" Buy premium feature package or watch a short video to enable this feature."
+                                 x:Name="runBuyNotice"/>
+                        </TextBlock>
+
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,0,0,8"
+                                    x:Name="panelGamepadActivate">
+                            <Button x:Name="purchaseBtn" Content="Buy" 
+                            Click="purchaseBtn_Click"
+                            Width="120"
+                            Margin =" 0, 0, 8, 0"/>
+
+                            <Button x:Name="watchVideoBtn" Content="Watch Video" 
+                            Width="120"
+                            Margin =" 0, 0, 0, 0" 
+                            Click="watchVideobtn_Click"/>
+
+
+                        </StackPanel>
+
+                        <TextBlock TextWrapping="Wrap" 
+                                   Text="txtControllerStatus - set by cpp"
+                                   x:Name="txtControllerStatus"
+                                   Foreground="Blue"
+                                   Margin="0,0,0,8"
+                                   >
+                        </TextBlock>
+                        
+                        <StackPanel x:Name="panelHIDGamepad" >
+                            <TextBlock Text="txtHIDGamepad - set by cpp" 
+                                       Foreground="Blue"
+                                       Margin="0,0,0,8"
+                                       x:Name="txtHIDGamepad"/>
+                            <ListView x:Name="lbHIDGamepad"
+                                      ItemsSource="{Binding Source={StaticResource vsControllerList}}"
+                                     Margin="0,0,0,8">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Padding" Value="4"/>
+                                        <!--<Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>-->
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}"
+                                                   TextWrapping="NoWrap"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <StackPanel Orientation="Horizontal"
+                                    Margin =" 0, 0, 0, 12"
+                                        x:Name="panelHIDConnect">
+                                <Button x:Name="ConfigureBtn" Content="Configure" 
+                                    Width="120"
+                                    Margin =" 0, 0, 8, 0"
+                                        Click="ConfigureBtn_Click"/>
+
+                                    <Button x:Name="ConnectBtn" Content="Connect" 
+                                Width="120"
+                                Margin =" 0, 0, 0, 0" 
+                                Click="ConnectBtn_Click"/>
+
+
+                            </StackPanel>
+                        </StackPanel>
+                        
+
+                        <ToggleSwitch Header="Show Virtual Buttons" 
+                                      Name="touchToggle" HorizontalAlignment="Left" 
+                                      Toggled="touchToggle_Toggled"/>
+
+                        <!--<ToggleSwitch Header="Virtual Controller Position" 
+                                      OffContent="Bottom"
+                                      OnContent="Top" IsOn="True" 
+                                              x:Name="touchControlPosToggle" 
+                                              Toggled="touchControlPosToggle_Toggled"/>-->
+
+                        <ComboBox Name="dpadComboBox" 
+                                  HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Top" 
+                                  SelectedIndex="1"
+                                  SelectionChanged="dpadComboBox_SelectionChanged_1"
+                                  Header="D-Pad Style"
+                                  Margin =" 0, 0, 0, 12">
+                            <ComboBoxItem>8-way</ComboBoxItem>
+                            <ComboBoxItem>Fixed analogue stick</ComboBoxItem>
+                            <ComboBoxItem>Dynamic analogue stick</ComboBoxItem>
+                        </ComboBox>
+
+                        <ComboBox Name="cboTurboBehavior" 
+                                  HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Top" 
+                                  SelectedIndex="0"
+                                  Header="Turbo Button Behavior"
+                                  Margin =" 0, 0, 0, 12"
+                                  SelectionChanged="cboTurboBehavior_SelectionChanged">
+                            <ComboBoxItem>Toggle turbo on/off</ComboBoxItem>
+                            <ComboBoxItem>Hold to activate</ComboBoxItem>
+                        </ComboBox>
+
+                        <Button x:Name="editButonLayoutBtn" 
+                                Content="Edit button layout" 
+                                    HorizontalAlignment="Stretch"
+                                    Click="editButonLayoutBtn_Click"
+                                Margin =" 0, 4, 0, 16"/>
+
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30" />
+                            </Grid.ColumnDefinitions>
+
+                            <Slider Minimum="0.0" 
+                                    Maximum="50.0" Value="10.0" 
+                                    Name="deadzoneSlider" 
+                                    ValueChanged="deadzoneSlider_ValueChanged_1"
+                                    IsEnabled="{Binding IsChecked,  ElementName=deadzoneToggle}"
+                                    >
+                                <Slider.Header>
+                                    <TextBlock >
+                                    <Run Text="Deadzone (analogue stick): "/>
+                                    <Run Text="{Binding Value ,ElementName=deadzoneSlider}" />
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+
+                            <ToggleButton  x:Name="deadzoneToggle"
+                                Grid.Column="2"
+                                        FontSize="20"
+                                        Style="{ThemeResource LockButtonStyle}"
+                                           Margin="0,8,0,0"
+                                           IsChecked="False"
+                                           >
+                            </ToggleButton>
+
+                        </Grid>
+
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30" />
+                            </Grid.ColumnDefinitions>
+
+                            <Slider  Minimum="50" Maximum="150" Value="100" 
+                                 Name="controllerScaleSlider" 
+                                 ValueChanged="controllerScaleSlider_ValueChanged_1"
+                                    IsEnabled="{Binding IsChecked,  ElementName=controllerScaleToggle}"
+                                    >
+                                <Slider.Header>
+                                    <TextBlock >
+                                    <Run Text="Virtual Joystick Scale: "/>
+                                    <Run Text="{Binding Value ,ElementName=controllerScaleSlider}" />
+                                    <Run Text="%"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+
+                            <ToggleButton  x:Name="controllerScaleToggle"
+                                Grid.Column="2"
+                                        FontSize="20"
+                                        Style="{ThemeResource LockButtonStyle}"
+                                           Margin="0,8,0,0"
+                                           IsChecked="False"
+                                           >
+                            </ToggleButton>
+
+                        </Grid>
+
+
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30" />
+                            </Grid.ColumnDefinitions>
+
+                            <Slider  Minimum="50" Maximum="150" Value="100" 
+                                 Name="buttonScaleSlider" 
+                                 ValueChanged="buttonScaleSlider_ValueChanged_1"
+                                    IsEnabled="{Binding IsChecked,  ElementName=buttonScaleToggle}"
+                                    >
+                                <Slider.Header>
+                                    <TextBlock >
+                                        <Run Text="Virtual Button Scale: "/>
+                                        <Run Text="{Binding Value ,ElementName=buttonScaleSlider}" />
+                                        <Run Text="%"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+
+                            <ToggleButton  x:Name="buttonScaleToggle"
+                                Grid.Column="2"
+                                        FontSize="20"
+                                        Style="{ThemeResource LockButtonStyle}"
+                                           Margin="0,8,0,0"
+                                           IsChecked="False"
+                                           >
+                            </ToggleButton>
+
+                        </Grid>
+
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30" />
+                            </Grid.ColumnDefinitions>
+
+                            <Slider  Minimum="10" Maximum="100" Value="50" 
+                                 Name="controllerOpacitySlider" 
+                                 ValueChanged="controllerOpacitySlider_ValueChanged_1"
+                                    IsEnabled="{Binding IsChecked,  ElementName=controllerOpacityToggle}"
+                                    >
+                                <Slider.Header>
+                                    <TextBlock >
+                                        <Run Text="Virtual controller opacity: "/>
+                                        <Run Text="{Binding Value ,ElementName=controllerOpacitySlider}" />
+                                        <Run Text="%"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+
+                            <ToggleButton  x:Name="controllerOpacityToggle"
+                                Grid.Column="2"
+                                        FontSize="20"
+                                        Style="{ThemeResource LockButtonStyle}"
+                                           Margin="0,8,0,0"
+                                           IsChecked="False"
+                                           >
+                            </ToggleButton>
+
+                        </Grid>
+
+
+                        
+                        
+                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="16" 
+                                   Text="Key Bindings"
+                                   VerticalAlignment="Top"/>
+
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" TextWrapping="Wrap"
+                                                Text="Left" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Name="leftKeyBox" AcceptsReturn="False" 
+                                             KeyDown="keyDown" KeyUp="leftKeyBox_KeyUp" TextWrapping="Wrap" Text="Left"  Margin="0,4,0,4"
+                                             VerticalAlignment="Top" />
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" 
+                                               Text="Up" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" x:Name="upKeyBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="upKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="Up" VerticalAlignment="Top" />
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" 
+                                               Text="Right" VerticalAlignment="Center"/>
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1" x:Name="rightKeyBox" Margin="0,0,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown"    KeyUp="rightKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="Right" VerticalAlignment="Top" />
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" TextWrapping="Wrap" 
+                                               Text="Down" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="3" Grid.Column="1" x:Name="downKeyBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="downKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="Down" VerticalAlignment="Top" />
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="4" Grid.Column="0" TextWrapping="Wrap" 
+                                               Text="B" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="4" Grid.Column="1" x:Name="bKeyBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="bKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="B" VerticalAlignment="Top" />
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0" TextWrapping="Wrap" 
+                                               Text="A" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="5" Grid.Column="1" x:Name="aKeyBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="aKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="A" VerticalAlignment="Top"/>
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0" TextWrapping="Wrap" Name="lKeyLabel"
+                                               Text="L" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="6" Grid.Column="1" x:Name="lKeyBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="lKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="L" VerticalAlignment="Top" />
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" TextWrapping="Wrap"  Name="rKeyLabel"
+                                               Text="R" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="7" Grid.Column="1" x:Name="rKeyBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="rKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="R" VerticalAlignment="Top" />
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="8" Grid.Column="0" TextWrapping="Wrap" 
+                                               Text="Start" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="8" Grid.Column="1" x:Name="startKeyBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="startKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="Start" VerticalAlignment="Top"/>
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="9" Grid.Column="0" TextWrapping="Wrap" 
+                                               Text="Select" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="9" Grid.Column="1" x:Name="selectKeyBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="selectKeyBox_KeyUp" TextWrapping="Wrap" 
+                                             Text="Select" VerticalAlignment="Top" />
+
+                            <TextBlock HorizontalAlignment="Left" Grid.Row="10" Grid.Column="0" TextWrapping="Wrap" 
+                                               Text="Turbo Mode" VerticalAlignment="Center" />
+                            <TextBox HorizontalAlignment="Stretch" Grid.Row="10" Grid.Column="1" x:Name="turboModeBox" Margin="0,4,0,4"
+                                             AcceptsReturn="False" KeyDown="keyDown" KeyUp="turboModeBox_KeyUp_1" TextWrapping="Wrap" 
+                                             Text="T" VerticalAlignment="Top" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+            
+            <PivotItem Header="Video"
+                       Margin="0">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      >
+                    <StackPanel Orientation="Vertical"
+                                  HorizontalAlignment="Left" 
+                                MaxWidth="440"
+                                Margin="12,0">
+                        <!--<ToggleSwitch Toggled="hzToggle_Toggled" Header="30 Hz mode for displays with 30 Hz" Name="hzToggle" IsOn="True" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>-->
+
+                        
+
+                        <!--<ToggleSwitch Toggled="fpsToggle_Toggled" Header="Show Frames per Second" x:Name="fpsToggle" IsOn="True" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>-->
+
+                        <!--<ComboBox Name="skipComboBox" HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Top" 
+                                   SelectedIndex="0" 
+                                  SelectionChanged="skipComboBox_SelectionChanged_1"
+                                  Header="Frame skip (normal mode)">
+                            <ComboBoxItem>automatic</ComboBoxItem>
+                            <ComboBoxItem>0</ComboBoxItem>
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                        </ComboBox>-->
+
+                        <ToggleSwitch Header="Enable Turbo Mode" 
+                                      Name="enableTurboToggle" 
+                                      IsOn="False" 
+                                      Toggled="enableTurboToggle_Toggled"
+                                      />
+
+
+                        <ComboBox Name="turboSkipComboBox" 
+                                  HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Top" 
+                                  SelectedIndex="0" 
+                                  SelectionChanged="turboSkipComboBox_SelectionChanged_1"
+                                  Header="Frame skip (turbo mode)">
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                            <ComboBoxItem>4</ComboBoxItem>
+                            <ComboBoxItem>5</ComboBoxItem>
+                            <ComboBoxItem>6</ComboBoxItem>
+                            <ComboBoxItem>7</ComboBoxItem>
+                            <ComboBoxItem>8</ComboBoxItem>
+                            <ComboBoxItem>9</ComboBoxItem>
+                        </ComboBox>
+
+                        <ComboBox Name="monitorComboBox" HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Top" 
+                                   SelectedIndex="1" 
+                                  SelectionChanged="monitorComboBox_SelectionChanged_1"
+                                  Header="Display Type">
+                            <ComboBoxItem>30 Hz</ComboBoxItem>
+                            <ComboBoxItem>60 Hz (default)</ComboBoxItem>
+                            <ComboBoxItem>120 Hz</ComboBoxItem>
+                        </ComboBox>
+
+                        <ComboBox Name="aspectComboBox" 
+                                  HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Top"
+                                  SelectedIndex="0" 
+                                  SelectionChanged="aspectComboBox_SelectionChanged_1"
+                                  Header="Aspect Ratio"
+                                  >
+                            <ComboBoxItem>Original</ComboBoxItem>
+                            <ComboBoxItem>Stretch</ComboBoxItem>
+                            <ComboBoxItem>4:3</ComboBoxItem>
+                            <ComboBoxItem>5:4</ComboBoxItem>
+                            <ComboBoxItem>1:1</ComboBoxItem>
+                        </ComboBox>
+
+                        <ToggleSwitch Header="Use bilinear filter" 
+                                      Name="linearFilterToggle" 
+                                      IsOn="True" Toggled="linearFilterToggle_Toggled"
+                                      />
+
+                        
+
+                        <ToggleSwitch Header="Show FPS" 
+                                      Name="fpsToggle" 
+                                      IsOn="True"
+                                      Toggled="fpsToggle_Toggled"/>
+
+                        <ToggleSwitch Header="Use fullscreen mode" 
+                                      Name="fullscreenToggle" 
+                                      IsOn="False"
+                                      Toggled="fullscreenToggle_Toggled"/>
+
+
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+
+            <PivotItem Header="General"
+                       Margin="0">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      >
+                    <StackPanel Orientation="Vertical"
+                                  HorizontalAlignment="Left" 
+                                MaxWidth="440"
+                                Margin="12,0">
+                        
+                        
+                        
+                        
+                        <ToggleSwitch Header="Sound" 
+                                      Toggled="soundToggle_Toggled" 
+                                      Name="soundToggle" 
+                                      IsOn="True"
+                                      HorizontalAlignment="Left" 
+                                      VerticalAlignment="Top"/>
+
+                        <ToggleSwitch Header="Synchronize audio (better quality)" 
+                                      Toggled="soundSyncToggle_Toggled_1" 
+                                      Name="soundSyncToggle" 
+                                      IsOn="True"/>
+                        
+                        <ToggleSwitch Header="Disable save confirmation" 
+                                      IsOn="False" 
+                                      Name="saveConfirmationToggle" 
+                                      Toggled="saveConfirmationToggle_Toggled_1"/>
+                        
+                        <ToggleSwitch Header="Disable load confirmation" 
+                                      IsOn="False" 
+                                      Name="loadConfirmationToggle" 
+                                      Toggled="loadConfirmationToggle_Toggled_1"/>
+
+                        <ComboBox Name="cboTheme" HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Top" 
+                                   SelectedIndex="0" 
+                                  SelectionChanged="cboTheme_SelectionChanged"
+                                  Header="Theme">
+                            <ComboBoxItem>Light</ComboBoxItem>
+                            <ComboBoxItem>Dark</ComboBoxItem>
+                        </ComboBox>
+
+                        <ToggleSwitch Header="Hide hamburger button" 
+                                      IsOn="False" 
+                                      Name="hideHamburgerToggle" 
+                                      Toggled="hideHamburgerToggle_Toggled"
+                                      Visibility="Collapsed"
+                                      />
+
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
+
+        <!--<local:AdControl Grid.Row="2">
+        </local:AdControl>-->
+
+    </Grid>
+</Page>

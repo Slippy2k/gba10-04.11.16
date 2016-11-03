@@ -1,0 +1,83 @@
+﻿<Page
+    x:Class="GBA10.ExportPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GBA10"
+    xmlns:ctl="using:GBA10.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignWidth="700"
+    Loaded="Page_Loaded">
+
+    <Grid x:Name="LayoutRoot"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="titleBar" 
+              Height="48"
+              Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            <TextBlock x:Name="title" 
+                     Style="{StaticResource PageTitleTextBlockStyle}" 
+                       Text="**EXPORT"
+                       x:Uid="EXPORT"/>
+        </Grid>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      Grid.Row="1">
+            <RelativePanel>
+                <StackPanel MaxWidth="500"
+                        Margin="12,0">
+                    <TextBlock Text="**Local storage"
+                                VerticalAlignment="Center"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Margin="0,8,0,0"
+                               x:Uid="LocalStorage"
+                                  />
+                    <TextBlock TextWrapping="Wrap"
+                           Text="**If you import the rom using ..."                                
+                                 Margin=" 0, 4, 0, 4"
+                               x:Uid="ExportLocalInstruction"/>
+
+                    <TextBlock Text="OneDrive"
+                           VerticalAlignment="Center"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Margin="0,8,0,0"
+                                  />
+                    <TextBlock TextWrapping="Wrap"
+                           Text="**If for any reason ..."                                
+                                 Margin=" 0, 4, 0, 4"
+                               x:Uid="ExportOneDriveInstruction"/>
+
+                    <StackPanel Orientation="Horizontal"
+                             Margin="0,4,0,12">
+                        <Button x:Name="SignInbtn" Content="**Sign in" 
+                            Click="SignInbtn_Click"
+                            Width="120"
+                            Margin =" 0, 0, 8, 0"
+                                x:Uid="SignInBtn"/>
+
+                        <Button x:Name="exportOneDrivebtn" Content="**Export" 
+                            Click="exportOneDrivebtn_Click"
+                            Width="120"
+                            IsEnabled="False"
+                            Margin =" 0, 0, 0, 0"
+                                x:Uid="ExportBtn"/>
+
+                        <!--<Button x:Name="importOneDriveSavebtn" Content="Import Save" 
+                            Width="120"
+                            Margin ="0" 
+                            Click="importSavbtn_Click"/>-->
+                    </StackPanel>
+
+                </StackPanel>
+            </RelativePanel>
+        </ScrollViewer>
+
+
+    </Grid>
+</Page>

@@ -1,0 +1,36 @@
+﻿//
+// FileBrowserPane.xaml.h
+// Declaration of the FileBrowserPane class
+//
+
+#pragma once
+
+#include "FileBrowserPane.g.h"
+#include "Definitions.h"
+#include "cpprest\json.h"
+
+
+namespace GBA10
+{
+	[Windows::Foundation::Metadata::WebHostHidden]
+	public ref class FileBrowserPane sealed
+	{
+	public:
+		FileBrowserPane();
+	protected:
+		virtual void OnNavigatingFrom(Windows::UI::Xaml::Navigation::NavigatingCancelEventArgs^ e) override;
+
+	private:
+		void closeBtn_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		OneDriveItemType GetOneDriveItemType(std::wstring ext);
+		Platform::Collections::Vector<OneDriveFileItem^>^ fileVector;
+		Platform::Collections::Vector<Windows::Foundation::Collections::IVector<OneDriveFileItem^>^>^ onedriveStack;
+
+		void client_GetCompleted(web::json::value v);
+		bool loading;//keep track of when the app is loading new data
+		void backBtn_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		Concurrency::task<size_t> DownloadFile(OneDriveFileItem^ item, Windows::Storage::CreationCollisionOption collitionOption);
+		//Windows::Storage::StorageFile^ tmpfile;
+		void fileList_ItemClick(Platform::Object^ sender, Windows::UI::Xaml::Controls::ItemClickEventArgs^ e);
+	};
+}

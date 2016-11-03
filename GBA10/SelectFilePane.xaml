@@ -1,0 +1,63 @@
+﻿<UserControl
+    x:Class="GBA10.SelectFilePane"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GBA10"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="346">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          BorderThickness="2,0,2,2" BorderBrush="{ThemeResource ListBoxBorderThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid.Resources>
+            <CollectionViewSource x:Name="FileListvs"/>
+        </Grid.Resources>
+
+
+        <StackPanel Background="{ThemeResource ListBoxBorderThemeBrush}"
+                    VerticalAlignment="Stretch">
+            <TextBlock Text="Assigned at run time" 
+                       x:Name="txtTitle"
+                       Style="{ThemeResource TitleTextBlockStyle}"
+                       Margin="10,4,0,4"
+                       />
+        </StackPanel>
+
+        <TextBlock x:Name="txtNoFile" Grid.Row="1"
+                   Text="No supported file found!" 
+                   Foreground="Red"
+                   Margin="10,8,0,8"/>
+
+        <ListView Name="fileList" 
+            Background="Transparent" 
+            ItemClick="fileList_ItemClick"
+            IsItemClickEnabled="True"
+            ItemsSource="{Binding Source={StaticResource FileListvs}}"
+                    Grid.Row="1"
+            >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="10"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding}" 
+                            FontSize="18"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+    </Grid>
+</UserControl>
