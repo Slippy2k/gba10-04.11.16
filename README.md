@@ -7,3 +7,7 @@ The GBA and GBC emulator for Xbox One
 3. Git clone the project or download a zipped project to your local computer.
 4. Open the GBA10.sln file from Visual Studio 2015. Select Release/x86 as the target configuration/platform. Build and deploy the solution to your Xbox One.
 5. Play any game with pleasure.
+
+# Contact
+Email: mobwi@outlook.com
+Twitter: @mobwi
