@@ -1,4 +1,4 @@
-# gba10
+# GBA10
 The GBA and GBC emulator for Xbox One 
 
 # Building Steps
@@ -11,3 +11,4 @@ The GBA and GBC emulator for Xbox One
 # Contact
 Email: mobwi@outlook.com
 Twitter: @mobwi
+Web: <a href="http://xoc.avosapps.us/">Xbox One open source game community</a>
