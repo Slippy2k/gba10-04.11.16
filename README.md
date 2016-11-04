@@ -9,6 +9,6 @@ The GBA and GBC emulator for Xbox One
 5. Play any game with pleasure.
 
 # Contact
-Email: mobwi@outlook.com
-Twitter: @mobwi
-Web: <a href="http://xoc.avosapps.us/">Xbox One open source game community</a>
+Email: mobwi@outlook.com<br>
+Twitter: @mobwi<br>
+Web: <a href="http://xoc.avosapps.us/">Xbox One open source game community</a><br>
